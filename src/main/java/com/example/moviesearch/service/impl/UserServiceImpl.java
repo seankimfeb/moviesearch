@@ -12,7 +12,7 @@ public class UserServiceImpl {
     //}
 
 
-    private static List<Movie> extractMovieFromJson(String content){
+    public static List<Movie> extractMovieFromJson(String content){
         
         /** 
         Gson gson = new Gson();
