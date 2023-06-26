@@ -11,7 +11,14 @@ public class UserServiceImpl {
     }
 
 
-    private Movie extractMovieFromJson(){
+    private Movie extractMovieFromJson(String content){
+        Movie movieResult = new Movie();
+        String title;
+        Integer year;
+        String imdbID;
+        String type;
+        String poster;
+
 
     }
     
