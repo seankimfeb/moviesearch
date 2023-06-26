@@ -16,6 +16,9 @@ import org.springframework.http.HttpMethod;
 import org.springframework.web.client.RestTemplate;
 
 import com.example.moviesearch.dto.MovieResponseDto;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 public class MovieApiClient {
 
@@ -73,5 +76,25 @@ public class MovieApiClient {
     public static void main(String[] args) {
         System.out.println("HELLO");
     System.out.println(searchMovieByTitle("parasite","9025dd4f"));
+    Gson gson = new Gson();
+    String json =searchMovieByTitle("parasite","9025dd4f");
+        JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
+
+        JsonArray searchResults = jsonObject.getAsJsonArray("Search");
+        for (int i = 0; i < searchResults.size(); i++) {
+            JsonObject result = searchResults.get(i).getAsJsonObject();
+            String title = result.get("Title").getAsString();
+            String year = result.get("Year").getAsString();
+            String imdbID = result.get("imdbID").getAsString();
+            String type = result.get("Type").getAsString();
+            String poster = result.get("Poster").getAsString();
+
+            System.out.println("Title: " + title);
+            System.out.println("Year: " + year);
+            System.out.println("imdbID: " + imdbID);
+            System.out.println("Type: " + type);
+            System.out.println("Poster: " + poster);
+            System.out.println("---------------------");
+        }
     }
 }
