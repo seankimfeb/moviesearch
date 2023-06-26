@@ -36,14 +36,14 @@ public class UserServiceImpl {
         MovieList movieList = gson.fromJson(content, MovieList.class);
         List<Movie> movies = movieList.getSearch();
         //System.out.println("Size = "+ movies.size());
-        //for (Movie movie : movies) {
-        //    System.out.println("Title: " + movie.getTitle());
-        //    System.out.println("Year: " + movie.getYear());
-        //    System.out.println("imdbID: " + movie.getImdbID());
-        //    System.out.println("Type: " + movie.getType());
-        //    System.out.println("Poster: " + movie.getPoster());
-        //    System.out.println("---------------------");
-       // }
+        for (Movie movie : movies) {
+            System.out.println("Title: " + movie.getTitle());
+            System.out.println("Year: " + movie.getYear());
+            System.out.println("imdbID: " + movie.getImdbID());
+            System.out.println("Type: " + movie.getType());
+            System.out.println("Poster: " + movie.getPoster());
+            System.out.println("---------------------");
+        }
         return movies;
 
     }
