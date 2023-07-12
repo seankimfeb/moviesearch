@@ -89,12 +89,12 @@ public class MovieApiClient {
             String type = result.get("Type").getAsString();
             String poster = result.get("Poster").getAsString();
 
-            System.out.println("Title: " + title);
-            System.out.println("Year: " + year);
-            System.out.println("imdbID: " + imdbID);
-            System.out.println("Type: " + type);
-            System.out.println("Poster: " + poster);
-            System.out.println("---------------------");
+           // System.out.println("Title: " + title);
+           // System.out.println("Year: " + year);
+           // System.out.println("imdbID: " + imdbID);
+           // System.out.println("Type: " + type);
+           // System.out.println("Poster: " + poster);
+           // System.out.println("---------------------");
         }
     }
 }

@@ -37,12 +37,12 @@ public class UserServiceImpl {
         List<Movie> movies = movieList.getSearch();
         //System.out.println("Size = "+ movies.size());
         for (Movie movie : movies) {
-            System.out.println("Title: " + movie.getTitle());
-            System.out.println("Year: " + movie.getYear());
-            System.out.println("imdbID: " + movie.getImdbID());
-            System.out.println("Type: " + movie.getType());
-            System.out.println("Poster: " + movie.getPoster());
-            System.out.println("---------------------");
+            //System.out.println("Title: " + movie.getTitle());
+            //System.out.println("Year: " + movie.getYear());
+            //System.out.println("imdbID: " + movie.getImdbID());
+            //System.out.println("Type: " + movie.getType());
+            //System.out.println("Poster: " + movie.getPoster());
+            //System.out.println("---------------------");
         }
         return movies;
 
@@ -51,6 +51,7 @@ public class UserServiceImpl {
     String parasite = (MovieApiClient.searchMovieByTitle("parasite","9025dd4f"));
     System.out.println("Extracted:\n");
     List<Movie> movies = extractMovieFromJson(parasite);
+    System.out.println(movies.toString());
     System.out.println("Size = "+ movies.size());
 
     }
