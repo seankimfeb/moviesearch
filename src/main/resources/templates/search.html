@@ -3,24 +3,21 @@
     <head> 
     <link href="searchstyles.css" type="text/css">
 </head>
-<h1>
-    Search Movies here!
-</h1>
-<div class="search">
-    <input type="text" placeholder="Search..." th:value="${movie}">
-    <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
-  </div>
-<button>
-    Search Movie!
-</button>
+
 <form method = "POST" action="/search">
   <input type="text" name = "movie1" th:value="${movie}"/>
   <input type="submit" value = "Click"/>
 </form>
 <body>
-  <h1 th:text="${result}"></h1>
+  <p th:text="${result}"></p>
 </body>
+<div>
+  {result.map(data.key)=>{
+    var title = data.Title
+  }
 
+  }
+</div>
   <style>
     .search {
     position: relative;
