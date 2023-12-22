@@ -17,30 +17,32 @@ import com.example.moviesearch.service.impl.UserServiceImpl;
 
 @Controller
 public class IndexController {
-    
-    @GetMapping
-    public String index(){
-		return "index";
-	}
+
+  @GetMapping
+  public String index() {
+    return "index";
+  }
+
   @ModelAttribute
   @GetMapping("/search")
-  public String search(String keyword, Model model){
-    String json = MovieApiClient.searchMovieByTitle("titanic","9025dd4f");
+  public String search(String keyword, Model model) {
+    String json = MovieApiClient.searchMovieByTitle("titanic", "9025dd4f");
     MovieList ml = new MovieList();
     ml.setSearch(UserServiceImpl.extractMovieFromJson(json));
     model.addAttribute("result", ml.toString());
-    model.addAttribute("size",ml.getSearch().size());
+    model.addAttribute("size", ml.getSearch().size());
     return "search";
   }
-  @RequestMapping(value="/search", method= RequestMethod.POST)
-  public String takeInput(@RequestParam("movie1") String movieTitle, Model model){
-     String json = MovieApiClient.searchMovieByTitle(movieTitle,"9025dd4f");
-     MovieList ml = new MovieList();
-     ml.setSearch(UserServiceImpl.extractMovieFromJson(json));
-     model.addAttribute("result", ml.toString());
-    model.addAttribute("size",ml.getSearch().size());
+
+  @RequestMapping(value = "/searchmovie", method = RequestMethod.POST)
+  public String takeInput(@RequestParam("movie1") String movieTitle, Model model) {
+    String json = MovieApiClient.searchMovieByTitle(movieTitle, "9025dd4f");
+    MovieList ml = new MovieList();
+    ml.setSearch(UserServiceImpl.extractMovieFromJson(json));
+    model.addAttribute("searchresult", json);
+
     return "search";
   }
-//https://stackoverflow.com/questions/57744114/how-to-show-list-of-object-in-thymeleaf-in-spring-boot-project
-//https://strongstar.tistory.com/16
+  // https://stackoverflow.com/questions/57744114/how-to-show-list-of-object-in-thymeleaf-in-spring-boot-project
+  // https://strongstar.tistory.com/16
 }
