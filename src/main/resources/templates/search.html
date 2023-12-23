@@ -4,7 +4,7 @@
     <link href="searchstyles.css" type="text/css">
 </head>
 <h1>
-    Search Movies here!
+    Search Movies here!!
 </h1>
 
 <body>
@@ -16,13 +16,18 @@
   <h1>Search Results</h1>
   <hr/>
   <div th:if="${searchresult != null}">
-  <div th:each="result : ${searchresult.Search}">
-    <div>
-
-      
+    <th:block th:each="result : ${searchresult}">
+      <div>
+        <!-- Accessing properties of each result -->
+        <img th:src="${result.Poster}" alt="Movie Poster" style="width: 200px; height: 300px;"/>
+        <p th:text="${result.Title}"></p>
+        <p th:text="${result.Year}"></p>
+        <p th:text="${result.imdbID}"></p>
+        <hr/>
+       
     </div>
-    <hr/>
-</div>
+    </th:block>
+  </div>
 </div>
 </body>
 
@@ -47,5 +52,9 @@
     right: 12px;
     margin: 0;
   }
+  .responsive-image {
+    max-width: 100%;
+    height: auto;
+}
   </style>
   </html>

@@ -12,8 +12,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.moviesearch.clients.MovieApiClient;
+import com.example.moviesearch.entity.Movie;
 import com.example.moviesearch.entity.MovieList;
 import com.example.moviesearch.service.impl.UserServiceImpl;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 @Controller
 public class IndexController {
@@ -36,11 +43,48 @@ public class IndexController {
 
   @RequestMapping(value = "/searchmovie", method = RequestMethod.POST)
   public String takeInput(@RequestParam("movie1") String movieTitle, Model model) {
-    String json = MovieApiClient.searchMovieByTitle(movieTitle, "9025dd4f");
-    MovieList ml = new MovieList();
-    ml.setSearch(UserServiceImpl.extractMovieFromJson(json));
-    model.addAttribute("searchresult", json);
 
+    ObjectMapper objectMapper = new ObjectMapper();
+    String json = MovieApiClient.searchMovieByTitle(movieTitle, "9025dd4f");
+
+    // ml.setSearch(UserServiceImpl.extractMovieFromJson(json));
+    // System.out.println(json);
+    try {
+      // objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+
+      // JsonNode searchArray = jsonNode.get("Search");
+      // String returnthis = searchArray.toString().substring(1,
+      // searchArray.toString().length() - 1);
+      // ObjectMapper objectMapper2 = new ObjectMapper();
+      // List<Movie> movieList = objectMapper2.readValue(returnthis, new
+      // TypeReference<List<Movie>>() {
+      // readvalue? convertvalue?
+
+      MovieList ml = new MovieList();
+      ml.setSearch(UserServiceImpl.extractMovieFromJson(json));
+      List<Movie> returnthis = ml.getSearch();
+      // JsonNode jsonNode = objectMapper.readTree(json);
+      // JsonNode searchArray = jsonNode.get("Search"); // one without "search"
+      // System.out.println("current json : " + searchArray);
+      // List<Movie> movieList = objectMapper.readValue(searchArray.toString(), new
+      // TypeReference<List<Movie>>() {
+      // });
+
+      System.out.println("Begins!:" + returnthis);
+      model.addAttribute("searchresult", returnthis);
+
+    }
+    // catch (JsonMappingException e) {
+    // System.out.println("jME happend");
+    // e.printStackTrace();
+    // }
+    // catch (JsonProcessingException e) {
+    // System.out.println("jPE happend");
+    // e.printStackTrace();
+    // }
+    catch (Exception e) {
+      e.printStackTrace();
+    }
     return "search";
   }
   // https://stackoverflow.com/questions/57744114/how-to-show-list-of-object-in-thymeleaf-in-spring-boot-project
