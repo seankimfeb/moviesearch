@@ -1,60 +1,66 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-    <head> 
+<head>
     <link href="searchstyles.css" type="text/css">
+    <style>
+        .search {
+            position: relative;
+            width: 300px;
+        }
+
+        input {
+            width: 100%;
+            border: 1px solid #bbb;
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 14px;
+        }
+
+        .result-container {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .result-container img {
+            width: 200px;
+            height: 300px;
+            margin-right: 20px;
+        }
+
+        .result-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .result-details p {
+            margin: 5px 0;
+        }
+    </style>
 </head>
-<h1>
-    Search Movies here!!
-</h1>
-
 <body>
-<form method = "POST" action="/searchmovie">
-  <input type="text" name = "movie1" th:value="${movie}"/>
-  <input type="submit" value = "Click"/>
-</form>
+    <h1>Search Movies here!!</h1>
 
-  <h1>Search Results</h1>
-  <hr/>
-  <div th:if="${searchresult != null}">
-    <th:block th:each="result : ${searchresult}">
-      <div>
-        <!-- Accessing properties of each result -->
-        <img th:src="${result.Poster}" alt="Movie Poster" style="width: 200px; height: 300px;"/>
-        <p th:text="${result.Title}"></p>
-        <p th:text="${result.Year}"></p>
-        <p th:text="${result.imdbID}"></p>
-        <hr/>
-       
+    <form method="POST" action="/searchmovie">
+        <input type="text" name="movie1" th:value="${movie}"/>
+        <input type="submit" value="Click"/>
+    </form>
+
+    <h1>Search Results</h1>
+    <hr/>
+    <div th:if="${searchresult != null}">
+        <th:block th:each="result : ${searchresult}">
+            <div class="result-container">
+                <!-- Accessing properties of each result -->
+                <img th:src="${result.Poster}" alt="Movie Poster"/>
+                <div class="result-details">
+                    <p th:text="${result.Title}"></p>
+                    <p th:text="${result.Year}"></p>
+                    <p th:text="${result.imdbID}"></p>
+                </div>
+            </div>
+            <hr/>
+        </th:block>
     </div>
-    </th:block>
-  </div>
-</div>
 </body>
-
-  <style>
-    .search {
-    position: relative;
-    width: 300px;
-  }
-  
-  input {
-    width: 100%;
-    border: 1px solid #bbb;
-    border-radius: 8px;
-    padding: 10px 12px;
-    font-size: 14px;
-  }
-  
-  img {
-    position : absolute;
-    width: 17px;
-    top: 10px;
-    right: 12px;
-    margin: 0;
-  }
-  .responsive-image {
-    max-width: 100%;
-    height: auto;
-}
-  </style>
-  </html>
+</html>
