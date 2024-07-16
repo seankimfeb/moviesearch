@@ -60,6 +60,7 @@ public class MovieApiClient {
         return sendGetRequest(requestUrl);
     }
 
+    // http://www.omdbapi.com/?i=tt0848228
     /**
      * private final RestTemplate restTemplate;
      * private final String omdb_getMovies =
