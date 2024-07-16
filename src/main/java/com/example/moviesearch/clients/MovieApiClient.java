@@ -60,6 +60,18 @@ public class MovieApiClient {
         return sendGetRequest(requestUrl);
     }
 
+    public static String GetMovieDetail(String id, String key) {
+        try {
+            id = URLEncoder.encode(id, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        String requestUrl = "http://www.omdbapi.com/?i=ID&apikey=APIKEY".replaceAll("ID", id)
+                .replaceAll("APIKEY", key);
+        return sendGetRequest(requestUrl);
+
+    }
+
     // http://www.omdbapi.com/?i=tt0848228
     /**
      * private final RestTemplate restTemplate;
