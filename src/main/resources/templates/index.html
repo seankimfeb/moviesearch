@@ -80,6 +80,12 @@
             border-radius: 8px;
             margin-right: 20px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .result-container img:hover {
+            transform: scale(1.05);
         }
 
         .result-details {
@@ -133,7 +139,9 @@
                 results.forEach(function(result) {
                     $('#results').append(
                         '<div class="result-container">' +
+                        '<a href="/moviedetail?id=' + result.imdbID + '">' +
                         '<img src="' + result.poster + '" alt="Movie Poster"/>' +
+                        '</a>' +
                         '<div class="result-details">' +
                         '<p><strong>Title:</strong> ' + result.title + '</p>' +
                         '<p><strong>Year:</strong> ' + result.year + '</p>' +
