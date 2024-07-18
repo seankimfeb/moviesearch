@@ -2,6 +2,8 @@ package com.example.moviesearch.controllers;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
@@ -22,31 +24,20 @@ public class IndexController {
     return "index";
   }
 
-  @ModelAttribute
-  @GetMapping("/search")
-  public String search(String keyword, Model model) {
-    // String json = MovieApiClient.searchMovieByTitle("titanic", "9025dd4f");
-    // MovieList ml = new MovieList();
-    // ml.setSearch(UserServiceImpl.extractMovieFromJson(json));
-    // model.addAttribute("result", ml.toString());
-    // model.addAttribute("size", ml.getSearch().size());
-    return "search";
-  }
-
-  @RequestMapping(value = "/searchmovie", method = RequestMethod.POST)
-  public String takeInput(@RequestParam("movie1") String movieTitle, Model model) {
-    // ObjectMapper objectMapper = new ObjectMapper();
+  @PostMapping("/searchmovie")
+  public String takeInput(HttpServletRequest request, Model model) {
+    String movieTitle = request.getParameter("movie1");
     String json = MovieApiClient.searchMovieByTitle(movieTitle, "9025dd4f");
 
     try {
       MovieList ml = new MovieList();
       ml.setSearch(UserServiceImpl.extractMovieFromJson(json));
       List<Movie> returnthis = ml.getSearch();
-      model.addAttribute("searchresult", returnthis);
+      model.addAttribute("searchresult", returnthis); // transfer object to the html
     } catch (Exception e) {
       e.printStackTrace();
     }
-    return "search"; // Name of your search results page
+    return "search";
   }
 
   @GetMapping("/moviedetail")
