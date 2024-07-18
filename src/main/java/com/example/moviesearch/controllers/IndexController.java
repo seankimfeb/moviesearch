@@ -23,22 +23,30 @@ public class IndexController {
   }
 
   @ModelAttribute
-  @PostMapping("/searchmovie")
-  @ResponseBody
-  public ResponseEntity<List<Movie>> takeInput(@RequestParam("movie1") String movieTitle) {
-    ObjectMapper objectMapper = new ObjectMapper();
+  @GetMapping("/search")
+  public String search(String keyword, Model model) {
+    // String json = MovieApiClient.searchMovieByTitle("titanic", "9025dd4f");
+    // MovieList ml = new MovieList();
+    // ml.setSearch(UserServiceImpl.extractMovieFromJson(json));
+    // model.addAttribute("result", ml.toString());
+    // model.addAttribute("size", ml.getSearch().size());
+    return "search";
+  }
+
+  @RequestMapping(value = "/searchmovie", method = RequestMethod.POST)
+  public String takeInput(@RequestParam("movie1") String movieTitle, Model model) {
+    // ObjectMapper objectMapper = new ObjectMapper();
     String json = MovieApiClient.searchMovieByTitle(movieTitle, "9025dd4f");
 
     try {
       MovieList ml = new MovieList();
       ml.setSearch(UserServiceImpl.extractMovieFromJson(json));
       List<Movie> returnthis = ml.getSearch();
-
-      return ResponseEntity.ok(returnthis);
+      model.addAttribute("searchresult", returnthis);
     } catch (Exception e) {
       e.printStackTrace();
-      return ResponseEntity.status(500).body(null);
     }
+    return "search"; // Name of your search results page
   }
 
   @GetMapping("/moviedetail")

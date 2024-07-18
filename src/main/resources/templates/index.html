@@ -2,85 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <link href="searchstyles.css" rel="stylesheet" type="text/css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            var searchResults = [];
-
-            function displayResults(results) {
-                $('#results').empty();
-                results.forEach(function(result) {
-                    $('#results').append(
-                        '<div class="result-container">' +
-                        '<a href="/moviedetail?id=' + result.imdbID + '">' +
-                        '<img src="' + result.poster + '" alt="Movie Poster"/>' +
-                        '</a>' +
-                        '<div class="result-details">' +
-                        '<p><strong>Title:</strong> ' + result.title + '</p>' +
-                        '<p><strong>Year:</strong> ' + result.year + '</p>' +
-                        '<p><strong>IMDB ID:</strong> ' + result.imdbID + '</p>' +
-                        '</div>' +
-                        '</div><hr/>'
-                    );
-                });
-            }
-
-            $('form').on('submit', function(event) {
-                event.preventDefault(); // Prevent the form from submitting the default way
-
-                $.ajax({
-                    type: 'POST',
-                    url: '/searchmovie',
-                    data: $(this).serialize(), // Serialize form data
-                    success: function(response) {
-                        searchResults = response; // Store the results for sorting
-                        displayResults(searchResults);
-                    },
-                    error: function(xhr, status, error) {
-                        console.error("Error occurred:", status, error);
-                        $('#results').append('<p>Error occurred while searching for movies.</p>');
-                    }
-                });
-            });
-
-            $('#sort-options').on('change', function() {
-                var sortBy = $(this).val();
-                if (sortBy === 'title') {
-                    searchResults.sort(function(a, b) {
-                        return a.title.localeCompare(b.title);
-                    });
-                } else if (sortBy === 'year') {
-                    searchResults.sort(function(a, b) {
-                        return a.year - b.year;
-                    });
-                }
-                displayResults(searchResults);
-            });
-        });
-    </script>
 </head>
 <body>
     <h1>Search Movies Here!</h1>
 
     <div class="search-form">
         <form method="POST" action="/searchmovie" class="search">
-            <input type="text" name="movie1" th:value="${movie}" placeholder="Enter movie name..."/>
+            <input type="text" name="movie1" placeholder="Enter movie name..." required/>
             <input type="submit" value="Search"/>
         </form>
-    </div>
-
-    <div class="sort-dropdown">
-        <select id="sort-options">
-            <option value="" disabled selected>Sort By</option>
-            <option value="title">Title</option>
-            <option value="year">Year</option>
-        </select>
-    </div>
-
-    <h1>Search Results</h1>
-    <hr/>
-    <div id="results">
-        <!-- Search results will be appended here by jQuery -->
     </div>
 </body>
 </html>

@@ -1,66 +1,63 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link href="searchstyles.css" type="text/css">
-    <style>
-        .search {
-            position: relative;
-            width: 300px;
-        }
-
-        input {
-            width: 100%;
-            border: 1px solid #bbb;
-            border-radius: 8px;
-            padding: 10px 12px;
-            font-size: 14px;
-        }
-
-        .result-container {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 20px;
-        }
-
-        .result-container img {
-            width: 200px;
-            height: 300px;
-            margin-right: 20px;
-        }
-
-        .result-details {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .result-details p {
-            margin: 5px 0;
-        }
-    </style>
+    <link href="searchstyles.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-    <h1>Search Movies here!!!</h1>
-
-    <form method="POST" action="/searchmovie">
-        <input type="text" name="movie1" th:value="${movie}"/>
-        <input type="submit" value="Click"/>
-    </form>
-
+    <div class="search-form">
+        <form method="POST" action="/searchmovie" class="search">
+            <input type="text" name="movie1" placeholder="Enter movie name..." required/>
+            <input type="submit" value="Search"/>
+        </form>
+    </div>
     <h1>Search Results</h1>
     <hr/>
-    <div th:if="${searchresult != null}">
+
+    <div class="sort-dropdown">
+        <select id="sort-options" onchange="sortResults()">
+            <option value="" disabled selected>Sort By</option>
+            <option value="title">Title</option>
+            <option value="year">Year</option>
+        </select>
+    </div>
+
+    <div id="results" th:if="${searchresult != null}">
         <th:block th:each="result : ${searchresult}">
             <div class="result-container">
-                <!-- Accessing properties of each result -->
-                <img th:src="${result.Poster}" alt="Movie Poster"/>
+                <a th:href="@{/moviedetail(id=${result.imdbID})}">
+                    <img th:src="${result.poster}" alt="Movie Poster"/>
+                </a>
                 <div class="result-details">
-                    <p th:text="${result.Title}"></p>
-                    <p th:text="${result.Year}"></p>
-                    <p th:text="${result.imdbID}"></p>
+                    <p><strong>Title:</strong> <span th:text="${result.title}"></span></p>
+                    <p><strong>Year:</strong> <span th:text="${result.year}"></span></p>
+                    <p><strong>IMDB ID:</strong> <span th:text="${result.imdbID}"></span></p>
                 </div>
             </div>
             <hr/>
         </th:block>
     </div>
+
+    <script>
+        function sortResults() {
+            var sortBy = document.getElementById('sort-options').value;
+            var results = document.getElementById('results');
+            var resultsArray = Array.from(results.getElementsByClassName('result-container'));
+
+            if (sortBy === 'title') {
+                resultsArray.sort(function(a, b) {
+                    return a.querySelector('.result-details span').innerText.localeCompare(b.querySelector('.result-details span').innerText);
+                });
+            } else if (sortBy === 'year') {
+                resultsArray.sort(function(a, b) {
+                    return a.querySelector('.result-details span:nth-child(2)').innerText - b.querySelector('.result-details span:nth-child(2)').innerText;
+                });
+            }
+
+            results.innerHTML = '';
+            resultsArray.forEach(function(result) {
+                results.appendChild(result);
+            });
+        }
+    </script>
 </body>
 </html>
