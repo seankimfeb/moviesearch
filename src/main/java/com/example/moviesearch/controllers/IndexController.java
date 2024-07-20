@@ -1,6 +1,10 @@
 package com.example.moviesearch.controllers;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -20,8 +24,38 @@ import org.springframework.http.ResponseEntity;
 public class IndexController {
 
   @GetMapping
-  public String index() {
+  public String index(Model model) {
+    List<MovieDetail> randomMovies = getRandomMovies(5);
+    model.addAttribute("randomMovies", randomMovies);
     return "index";
+  }
+
+  // set of predefined imdb id to present
+  private List<String> validImdbIds = Arrays.asList(
+      "tt0111161", "tt0068646", "tt0071562", "tt0468569", "tt0050083",
+      "tt0108052", "tt0167260", "tt0110912", "tt0060196", "tt0137523", "tt0848228"
+  // Add more valid IMDb IDs here
+  );
+
+  private List<MovieDetail> getRandomMovies(int count) {
+    List<MovieDetail> randomMovies = new ArrayList<>();
+    // Random random = new Random();
+
+    Collections.shuffle(validImdbIds); // Shuffle the list to get random movies
+
+    for (int i = 0; i < count; i++) {
+      String imdbID = validImdbIds.get(i); // Get a valid IMDb ID from the list
+      String json = MovieApiClient.GetMovieDetail(imdbID, "9025dd4f");
+
+      try {
+        MovieDetail movie = UserServiceImpl.extractDetailFromJson(json);
+        randomMovies.add(movie);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }
+
+    return randomMovies;
   }
 
   @PostMapping("/searchmovie")
