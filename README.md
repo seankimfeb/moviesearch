@@ -15,6 +15,7 @@ $git clone https://github.com/seankimfeb/moviesearch.git
 $cd moviesearch
 $mvn clean install
 $mvn spring-boot:run
+```
 
 
 
